@@ -34,8 +34,10 @@ else
                     <td class="text-end">@game.Price.ToString("C2")</td>
                     <td>@game.ReseleaseDate.ToString("d")</td>
                     <td>
-                        <button>Edit</button>
-                        <button>Delete</button>
+                        <div>
+                            <a class="btn btn-primary" role="button" href="/editgame/@game.Id">Edit</a>
+                            <a class="btn btn-primary" role="button" href="/delete/@game.Id">Delete</a>
+                        </div>
                     </td>
                 </tr>
             }

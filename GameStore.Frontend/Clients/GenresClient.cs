@@ -12,7 +12,9 @@ namespace GameStore.Frontend.Clients
             new Genre { Id = 4, Name = "Simulation" },
             new Genre { Id = 5, Name = "Strategy" },
             new Genre { Id = 6, Name = "Sports" },
-            new Genre { Id = 7, Name = "Puzzle" }
+            new Genre { Id = 7, Name = "Puzzle" },
+            new Genre { Id = 8, Name = "RPG" },
+            new Genre { Id = 9, Name = "FPS" },
         ];
 
         public Genre[] GetGenres()

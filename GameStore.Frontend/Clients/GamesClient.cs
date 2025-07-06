@@ -38,11 +38,7 @@ namespace GameStore.Frontend.Clients
 
         public void AddGame(GameDetails game)
         {
-            var genre = genres.FirstOrDefault(g => g.Id == int.Parse(game.GenreId!));
-            if (genre == null)
-            {
-                throw new ArgumentException("Invalid genre ID");
-            }
+            var genre = GetGenreById(game.GenreId);
             var newGame = new GameSummary
             {
                 Id = games.Count + 1,
@@ -52,6 +48,46 @@ namespace GameStore.Frontend.Clients
                 ReseleaseDate = game.ReseleaseDate
             };
             games.Add(newGame);
+        }
+
+        public void UpdateGame(GameDetails updateGame)
+        {
+            var genre = GetGenreById(updateGame.GenreId);
+            var gameSumary = GetGameSummaryById(updateGame.Id) ?? throw new ArgumentException("Game not found");
+            gameSumary.Name = updateGame.Name;
+            gameSumary.Price = updateGame.Price;
+            gameSumary.Genre = genre.Name;
+            gameSumary.ReseleaseDate = updateGame.ReseleaseDate;
+        }
+
+        private Genre GetGenreById(string? id)
+        {
+            var genre = genres.FirstOrDefault(g => g.Id == int.Parse(id ?? ""));
+            return genre == null ? throw new ArgumentException("Invalid genre ID") : genre;
+        }
+
+        public GameDetails? GetGameDetailsById(int id)
+        {
+            var game = GetGameSummaryById(id);
+            var genresId = genres.FirstOrDefault(g => g.Name == game?.Genre)?.Id.ToString();
+            return new GameDetails
+            {
+                Id = game.Id,
+                Name = game.Name,
+                GenreId = genresId,
+                Price = game.Price,
+                ReseleaseDate = game.ReseleaseDate
+            };
+        }
+
+        private GameSummary? GetGameSummaryById(int? id)
+        {
+            var game = games.Find(g => g?.Id == id);
+            if (game == null)
+            {
+                return null;
+            }
+            return game;
         }
     }
 }
