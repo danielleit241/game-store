@@ -2,7 +2,7 @@
 
 namespace GameStore.Frontend.Clients
 {
-    public class GameClient
+    public class GamesClient(GenresClient genresClient)
     {
         private readonly List<GameSummary?> games =
         [
@@ -29,7 +29,7 @@ namespace GameStore.Frontend.Clients
             }
         ];
 
-        private readonly Genre[] genres = new GenresClient().GetGenres();
+        private readonly Genre[] genres = genresClient.GetGenres();
 
         public GameSummary?[] GetGames()
         {
@@ -38,7 +38,7 @@ namespace GameStore.Frontend.Clients
 
         public void AddGame(GameDetails game)
         {
-            var genre = genres.ToList().FirstOrDefault(g => g.Id == int.Parse(game.GenreId!));
+            var genre = genres.FirstOrDefault(g => g.Id == int.Parse(game.GenreId!));
             if (genre == null)
             {
                 throw new ArgumentException("Invalid genre ID");

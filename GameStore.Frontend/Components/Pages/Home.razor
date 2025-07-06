@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject GamesClient Client
 
 <PageTitle>Game Catalog</PageTitle>
 
@@ -45,10 +46,9 @@ else
 
 @code
 {
-    private GameClient _client = new();
     private GameSummary[]? _games;
     protected override void OnInitialized()
     {
-        _games = _client.GetGames()!;
+        _games = Client.GetGames()!;
     }
 }
