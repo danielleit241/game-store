@@ -60,6 +60,12 @@ namespace GameStore.Frontend.Clients
             gameSumary.ReseleaseDate = updateGame.ReseleaseDate;
         }
 
+        public void DeleteGame(int id)
+        {
+            var game = GetGameSummaryById(id) ?? throw new ArgumentException("Game not found");
+            games.Remove(game);
+        }
+
         private Genre GetGenreById(string? id)
         {
             var genre = genres.FirstOrDefault(g => g.Id == int.Parse(id ?? ""));

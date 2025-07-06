@@ -4,7 +4,10 @@
 <PageTitle>Game Catalog</PageTitle>
 
 <div class="mt-2">
-    <a class="btn btn-primary" role="button" href="/editgame">New game</a>
+    <a class="btn btn-primary" role="button" href="@GameUrl()">
+        <i class="bi bi-plus"></i>
+        New game
+    </a>
 </div>
 
 @if (_games is null)
@@ -34,10 +37,18 @@ else
                     <td class="text-end">@game.Price.ToString("C2")</td>
                     <td>@game.ReseleaseDate.ToString("d")</td>
                     <td>
-                        <div>
-                            <a class="btn btn-primary" role="button" href="/editgame/@game.Id">Edit</a>
-                            <a class="btn btn-primary" role="button" href="/delete/@game.Id">Delete</a>
+                        <div class="d-flex">
+                            <a class="btn btn-primary me-2" role="button" href="@GameUrl(game.Id)">
+                                <i class="bi bi-pencil-square"></i>
+                                Edit
+                            </a>
+
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(game)">
+                                <i class="bi bi-trash-fill"></i>
+                                Delete
+                            </button>
                         </div>
+                        <DeleteGame Game="@game"/>
                     </td>
                 </tr>
             }
@@ -52,5 +63,15 @@ else
     protected override void OnInitialized()
     {
         _games = Client.GetGames()!;
+    }
+
+    private static string GameUrl(int? id = null)
+    {
+        return id == null ? $"/editgame" : $"/editgame/{id}";
+    }
+
+    private string GetDeleteModalId(GameSummary game)
+    {
+        return $"#{DeleteGame.GetModelId(game)}";
     }
 }
