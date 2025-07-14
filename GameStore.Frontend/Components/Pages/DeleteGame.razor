@@ -30,7 +30,8 @@
     protected override void OnParametersSet()
     {
         title = $"Delete {Game?.Name}";
-        body = $"Do you want to delete {Game?.Name} ?";
+        var today = DateOnly.FromDateTime(DateTime.Now);
+        body = $"Do you want to delete {Game?.Name} on {today} ?";
     }
 
     public static string GetModelId(GameSummary? game)
